@@ -15,6 +15,9 @@ export const QuizContextProvider = props => {
     questions1: [],
     questions2: []
   });
+  const [finalScores, setFinalScores] = useState({ quiz1: 0, quiz2: 0 });
+
+  console.log(finalScores);
 
   return (
     <QuizContext.Provider
@@ -25,7 +28,9 @@ export const QuizContextProvider = props => {
         setQuesStore,
         noOfQuiz,
         quizAnswerSheet,
-        setQuizAnswerSheet
+        setQuizAnswerSheet,
+        finalScores,
+        setFinalScores
       }}>
       {props.children}
     </QuizContext.Provider>

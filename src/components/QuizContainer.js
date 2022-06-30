@@ -9,8 +9,15 @@ import { arrayAlreadyHasArray } from '../helpers/index';
 import FinalScoreboard from './FinalScoreboard';
 
 const QuizContainer = () => {
-  const { quesStore, setQuesStore, userInputs, noOfQuiz, setQuizAnswerSheet } =
-    useContext(QuizContext); // extracting from context
+  const {
+    quesStore,
+    setQuesStore,
+    userInputs,
+    noOfQuiz,
+    setQuizAnswerSheet,
+    finalScores,
+    setFinalScores
+  } = useContext(QuizContext); // extracting from context
   const navigate = useNavigate();
   const intervals = Math.floor(userInputs.noQues / noOfQuiz.length); // chunk size
 
@@ -24,8 +31,6 @@ const QuizContainer = () => {
       setQuizAnswerSheet([store1, store2]);
     }
   }, [store1.questions, store2.questions, userInputs]);
-
-  console.log(userInputs);
 
   useEffect(() => {
     let value = 0, // random value pair [random_number1, random_number2]
@@ -57,7 +62,7 @@ const QuizContainer = () => {
         onClick={() => navigate('/')}
       />
       {showScoreboard ? (
-        <FinalScoreboard />
+        <FinalScoreboard intervals={intervals} />
       ) : (
         <>
           {noOfQuiz.map((quiz, index) => {
@@ -79,6 +84,8 @@ const QuizContainer = () => {
                     intervals={intervals}
                     store={index === 0 ? store1 : store2}
                     setStore={index === 0 ? setStore1 : setStore2}
+                    finalScores={finalScores}
+                    setFinalScores={setFinalScores}
                   />
                 )}
               </>

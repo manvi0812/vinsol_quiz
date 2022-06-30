@@ -6,7 +6,15 @@ import { calculate, operatorsSign } from '../helpers';
 import Progress from './Progress';
 import Scoreboard from './Scoreboard';
 
-const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
+const QuizSection = ({
+  id,
+  idBasedQuesStore,
+  intervals,
+  store,
+  setStore,
+  finalScores,
+  setFinalScores
+}) => {
   const { userInputs } = useContext(QuizContext);
 
   const [nextQues, setNextQues] = useState(0);
@@ -42,7 +50,6 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
         ]
       });
     } else {
-      console.log('hey');
       let quizBasedAnswerSheet = {},
         answer;
 
@@ -66,8 +73,6 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
     }
   };
 
-  console.log(store);
-
   const handleNextClick = question => {
     clearTimeout(timeout);
     setCount(20);
@@ -82,6 +87,12 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
       if (check) setAnswer(i => [...i, nextQues - 1]);
     }
   }, [store, nextQues]);
+
+  useEffect(() => {
+    id === 1
+      ? setFinalScores({ ...finalScores, quiz1: answer.length })
+      : setFinalScores({ ...finalScores, quiz2: answer.length });
+  }, [answer]);
 
   const Timer = question => {
     timeout = setTimeout(() => {

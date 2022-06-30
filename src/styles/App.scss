@@ -116,7 +116,7 @@
   box-sizing: border-box;
   height: 100vh;
   overflow: hidden;
-  background: #ddd;
+  background: #191b1b;
   width: 100%;
   display: flex;
   align-items: flex-end;
@@ -243,6 +243,7 @@
     border-radius: 8px;
     align-self: center;
     letter-spacing: 2px;
+    color: #ddd;
 
     & > strong {
       color: #8dbcc4;
@@ -285,7 +286,7 @@
     width: 100%;
     padding: 1rem;
     overflow: auto;
-    background-color: #191b1b;
+    // background-color: #191b1b;
     // background: #5f898f;
     color: #ddd;
     border-radius: 15px;
@@ -295,21 +296,52 @@
     &--question-result-container {
       display: flex;
       flex-direction: column;
-      width: 50%;
+      width: 45%;
+      overflow: auto;
+      border-radius: 22px;
       padding: 0 1rem;
       border-right: 1px solid;
+      background: linear-gradient(180deg, #3e4e79 0%, #9a7ea6 100%);
 
-      h3 {
-        margin: 0;
+      &--score-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+
+        &--score {
+          h2 {
+            color: #a6ffc4;
+            margin: 0 0 10px 0;
+            font-size: 3rem;
+          }
+          border-radius: 50%;
+          padding: 1rem;
+          width: 120px;
+          background: #020b0d;
+          margin: 0 0 20px 0;
+          box-shadow: 0px 10px 14px #59485c;
+          height: 120px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+
+          & > p {
+            margin: 0;
+            font-size: 12px;
+          }
+        }
       }
 
       &--question-result {
-        border-bottom: 1px solid #ddd;
+        border-bottom: 2px solid #216b74;
         padding: 1rem;
-        background: #2d2e2e;
+        background: rgba(27, 25, 25, 0.29);
         border-radius: 15px;
         letter-spacing: 2px;
         margin-bottom: 1rem;
+        color: #ddd;
 
         & > strong {
           padding: 2px 10px;
@@ -318,11 +350,21 @@
 
         p {
           margin: 5px 0;
+
+          & > strong {
+            color: #a6ffc4;
+            font-weight: 600;
+          }
         }
       }
       &--ques {
         display: flex;
         align-items: center;
+
+        & > strong {
+          color: #a6ffc4;
+          font-weight: 600;
+        }
       }
     }
   }
