@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Button from './ButtonGroup';
 
 import { QuizContext } from '../Context/QuizContext';
@@ -9,11 +9,11 @@ import Scoreboard from './Scoreboard';
 const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
   const { userInputs } = useContext(QuizContext);
 
-  const [shouldRenderQues, setShouldRenderQues] = useState(0);
   const [nextQues, setNextQues] = useState(0);
   const [userAnswer, setUserAnswer] = useState('');
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(20);
   const [answer, setAnswer] = useState([]);
+  const [shouldRenderQues, setShouldRenderQues] = useState(0);
 
   let question = '',
     timeout = 0;
@@ -42,13 +42,9 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
         ]
       });
     } else {
+      console.log('hey');
       let quizBasedAnswerSheet = {},
-        currentQuestion,
         answer;
-      currentQuestion =
-        idBasedQuesStore[nextQues][0] +
-        operatorsSign[userInputs.operator] +
-        idBasedQuesStore[nextQues][1];
 
       answer = calculate(
         idBasedQuesStore[nextQues][0],
@@ -58,24 +54,34 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
 
       quizBasedAnswerSheet = {
         quesId: nextQues + 1,
-        ques: currentQuestion,
+        ques: question,
         answer: answer,
         userAnswer: userAnswer,
         isCorrect: userAnswer == answer
       };
+
       setStore({
         questions: [...store.questions, quizBasedAnswerSheet]
       });
     }
   };
 
+  console.log(store);
+
   const handleNextClick = question => {
     clearTimeout(timeout);
-    setCount(10);
+    setCount(20);
     checkAnswer(question);
     setUserAnswer('');
     setNextQues(nextQues + 1);
   };
+
+  useEffect(() => {
+    if (nextQues > 0) {
+      let check = store.questions[nextQues - 1].isCorrect;
+      if (check) setAnswer(i => [...i, nextQues - 1]);
+    }
+  }, [store, nextQues]);
 
   const Timer = question => {
     timeout = setTimeout(() => {
@@ -87,7 +93,7 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
           setShouldRenderQues(-1);
         }
         setNextQues(nextQues + 1);
-        setCount(10);
+        setCount(20);
       }
       return () => clearTimeout(timeout);
     }, 1000);
@@ -138,16 +144,9 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
                 answer={answer}
                 setAnswer={setAnswer}
               />
-              {nextQues !== idBasedQuesStore.length - 1 ? (
-                <Button
-                  type='primary'
-                  text='Next'
-                  cssClassName='next-btn'
-                  onClick={() => handleNextClick(question)}
-                />
-              ) : (
-                <></>
-              )}
+              {nextQues !== idBasedQuesStore.length - 1
+                ? renderButton('next-btn', question)
+                : renderButton('end-quiz', question)}
             </div>
           </div>
         );
@@ -156,7 +155,7 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
     }
   };
 
-  const renderButton = type => {
+  const renderButton = (type, question) => {
     switch (type) {
       case 'start':
         return (
@@ -170,6 +169,27 @@ const QuizSection = ({ id, idBasedQuesStore, intervals, store, setStore }) => {
         );
       case 'over':
         return <Button type='secondary' text={`Quiz ${id} Over`} />;
+      case 'next-btn':
+        return (
+          <Button
+            type='primary'
+            text='Next'
+            cssClassName='next-btn'
+            onClick={() => handleNextClick(question)}
+          />
+        );
+      case 'end-quiz':
+        return (
+          <Button
+            type='primary'
+            text='End Quiz'
+            cssClassName='next-btn'
+            onClick={() => {
+              checkAnswer(question);
+              setShouldRenderQues(-1);
+            }}
+          />
+        );
       default:
         return;
     }

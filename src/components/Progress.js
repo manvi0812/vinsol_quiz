@@ -1,38 +1,46 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-const Progress = ({ intervals, store, nextQues, answer, setAnswer }) => {
+const Progress = ({ intervals, store, nextQues, answer }) => {
   const scores = new Array(intervals).fill('');
 
-  useEffect(() => {
-    if (nextQues > 0) {
-      let check = store.questions[nextQues - 1].isCorrect;
-      if (check) setAnswer(i => [...i, nextQues - 1]);
+  const renderStyle = type => {
+    switch (type) {
+      case 'correct':
+        return {
+          background: '#78b478',
+          border: '1px solid #78b478'
+        };
+      case 'incorrect':
+        return {
+          background: '#dcdc8b00',
+          border: '1px solid #401148'
+        };
+      case 'unattempted':
+        return {
+          background: '#d37171',
+          border: '1px solid #d37171'
+        };
+      default:
+        return;
     }
-  }, [store, nextQues]);
+  };
 
   return (
     <div className='scores-container'>
       {scores.map((score, index) => {
+        const style = answer.includes(index)
+          ? renderStyle('correct')
+          : index > nextQues
+          ? renderStyle('incorrect')
+          : renderStyle('unattempted');
         return (
           <div
             className={`scores-container__score-item ${index === nextQues ? 'active' : ''}`}
-            style={{
-              background: answer.includes(index)
-                ? '#78b478 '
-                : index > nextQues
-                ? '#dcdc8b00'
-                : '#d37171',
-              border: answer.includes(index)
-                ? '1px solid #78b478 '
-                : index > nextQues
-                ? '2px solid #401148'
-                : '1px solid #d37171'
-            }}></div>
+            style={style}></div>
         );
       })}
     </div>
   );
 };
-//#9ba345
-//#dcdc8b00
+
 export default Progress;

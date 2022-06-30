@@ -5,7 +5,6 @@ import { QuizContext } from '../Context/QuizContext';
 import { randomNumber } from '../helpers/RandomNumberGenerator';
 import Button from './ButtonGroup';
 
-// const OPERATORS = ['Add', 'Sub', 'Mul', 'Div'];
 export const OPERATORS = [
   { operator: 'Add', sign: '+' },
   { operator: 'Sub', sign: '-' },
@@ -14,24 +13,31 @@ export const OPERATORS = [
 ];
 
 export const MainForm = () => {
-  const { userInputs, setUserInputs } = useContext(QuizContext);
+  const { userInputs, setUserInputs, setQuesStore, setQuizAnswerSheet } = useContext(QuizContext);
   const [randomElements, setRandomElements] = useState({});
   const navigate = useNavigate();
 
   const handleSubmit = e => {
     e.preventDefault();
-    navigate('/quizzes');
+    const noOfPossibleQuestions = Math.pow(userInputs.maxOperand + 1, 2); // selecting numbers from 0 to maxOperand
+    if (noOfPossibleQuestions >= userInputs.noQues)
+      navigate(
+        '/quizzes'
+      ); // ex: maxOperand: 2 and noQues: 20 -> 20 ques cannot be generated with combinations of 0 - 2
+    else alert('Please enter any other max operand');
   };
 
   useEffect(() => {
     const randomElement = OPERATORS[Math.floor(Math.random() * OPERATORS.length)];
-    const randomMaxOperand = randomNumber(15);
+    const randomMaxOperand = randomNumber(10);
     setRandomElements({ sign: randomElement, no: randomMaxOperand });
     setUserInputs({
       ...userInputs,
       maxOperand: randomMaxOperand,
       operator: randomElement.operator
     });
+    setQuesStore([]);
+    setQuizAnswerSheet({ questions1: [], questions2: [] });
   }, []);
 
   return (
@@ -63,9 +69,9 @@ export const MainForm = () => {
       />
       <label>Please select any one of the operator.</label>
       <div className='App__main--form--input-group__radio-group'>
-        {OPERATORS.map(item => {
+        {OPERATORS.map((item, index) => {
           return (
-            <>
+            <div key={index}>
               <input
                 type='radio'
                 id={item.operator}
@@ -77,7 +83,7 @@ export const MainForm = () => {
               <label className='faded-text' htmlFor={item.operator}>
                 {item.operator}
               </label>
-            </>
+            </div>
           );
         })}
       </div>

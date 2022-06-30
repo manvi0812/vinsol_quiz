@@ -25,23 +25,28 @@ const QuizContainer = () => {
     }
   }, [store1.questions, store2.questions, userInputs]);
 
+  console.log(userInputs);
+
   useEffect(() => {
     let value = 0, // random value pair [random_number1, random_number2]
       check = false, // will check if same value is present in the array
       noQues = userInputs.noQues,
       newstore = [];
+
     for (let i = 0; i < noQues; i++) {
       value = randomQuestion(userInputs.maxOperand);
       check = arrayAlreadyHasArray(newstore, value);
+
       if (check) {
-        noQues++; // if array already has the same value, increase the size of the array
+        noQues++; // if array already has the same value, increase the noQues by 1
         continue;
       }
+
       newstore.push(value);
     }
 
     setQuesStore(newstore);
-  }, [setQuesStore, userInputs.noQues]);
+  }, [setQuesStore, userInputs]);
 
   return (
     <div className='quiz-container'>

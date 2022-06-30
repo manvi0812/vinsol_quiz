@@ -10,7 +10,7 @@ const Instructions = () => {
         clicking on the Skip button.
       </p>
       <p>
-        <strong>2.</strong> On clicking the skip button, you'll have to attempt 2 quizzes.
+        <strong>2.</strong> On clicking the Skip/Submit button, you'll have to attempt 2 quizzes.
       </p>
       <p>
         <strong>3.</strong> Each question in the quiz will have a 20seconds timer.
@@ -26,8 +26,15 @@ const Instructions = () => {
         <strong>6.</strong> Each question will carry 1mark.
       </p>
       <p>
+        <strong>7.</strong> For each incorrect response, <strong>one mark</strong> will be deducted.
+      </p>
+      <p>
         <strong>7.</strong> After completing both the quizzes, the Final Scoreboard will be
         displayed.
+      </p>
+      <p>
+        <strong>7.</strong> If you decide to practice your division skills, please enter the
+        float(/decimal) values for the correct answer.
       </p>
     </div>
   );

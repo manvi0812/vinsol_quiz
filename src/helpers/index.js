@@ -26,8 +26,10 @@ export const calculate = (a, type, b) => {
       return a - b;
     case 'Mul':
       return a * b;
-    case 'Div':
-      return a / b;
+    case 'Div': {
+      if ((a === b) === 0) return 0;
+      else return a / b;
+    }
     default:
       return;
   }

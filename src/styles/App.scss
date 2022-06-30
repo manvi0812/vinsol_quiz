@@ -1,5 +1,5 @@
 #root {
-  background-color: #9e7272;
+  background-color: #191b1b;
   box-sizing: border-box;
 }
 
@@ -66,13 +66,18 @@
           align-items: center;
           margin-bottom: 2rem;
 
-          & > label {
-            text-transform: capitalize;
-            margin: 5px !important;
-          }
+          & > div {
+            display: flex;
+            align-items: center;
 
-          & > input {
-            margin: 0;
+            & > label {
+              text-transform: capitalize;
+              margin: 5px !important;
+            }
+
+            & > input {
+              margin: 0;
+            }
           }
         }
       }
@@ -80,22 +85,26 @@
 
     &__instructions-container {
       width: 22rem;
-      height: 50vh;
-      border: 2px dotted #78205f;
+      height: 98vh;
+      /* border: 2px dotted #78205f; */
       align-self: center;
-      border-radius: 0 22px;
-      // background: #191b1b;
+      border-radius: 22px 0 0 22px;
       padding: 1rem;
       box-sizing: border-box;
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      background: #323434b0;
+      color: #ddd;
 
       strong {
-        color: #78205f;
+        color: #895858;
         margin-bottom: 1rem;
       }
 
       & > p {
-        font-size: 12px;
-        margin: 0 0 2px 0;
+        font-size: 0.75rem;
+        margin: 12px 0 0 0;
         text-align: left;
         letter-spacing: 1px;
       }
